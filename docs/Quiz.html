@@ -66,6 +66,7 @@
       <table id="answerTable"><tr><th>Answers</th></tr></table> 
    </div> 
     <script>
+       var downloadTimer
        init()
         $(document).ready(function() {  
             $("#Add").on("click", function() {  
@@ -79,13 +80,15 @@
                let btn = document.createElement("button");
                btn.innerHTML = i;
                btn.style.backgroundColor = "springgreen";
+               btn.setAttribute("class", folderName);
                var cell = row.insertCell();
                cell.appendChild(btn);
                btn.onclick = function(){
-                  if(folderName === "Questions")
+                  clearInterval(downloadTimer);
+                  if(btn.className === "Questions")
                   {
                      var timeleft = 30;
-                     var downloadTimer = setInterval(function(){
+                     downloadTimer = setInterval(function(){
                      if(timeleft <= 0){
                         clearInterval(downloadTimer);
                         document.getElementById("timer").innerHTML = "Over";
@@ -94,8 +97,12 @@
                      }
                      timeleft -= 1;
                      }, 1000);
+                  }else
+                  {
+                     document.getElementById("timer").innerHTML = "Over";
                   }
                   btn.style.backgroundColor = "red";
+                  btn.disabled = true;
                   var x = document.getElementById("imageBoxDiv");
                   let text1 = folderName;
                   let text2 = "\\";
